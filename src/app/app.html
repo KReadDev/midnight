@@ -1,5 +1,23 @@
 <div class="app-container">
-  <aside class="sidebar">
+  <!-- Mobile Header -->
+  <header class="mobile-header">
+    <button class="mobile-menu-btn" (click)="toggleMobileMenu()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+        <path d="M9 9h6v6H9z" fill="currentColor"/>
+      </svg>
+    </button>
+    <div class="mobile-logo">
+      <span class="mobile-logo-title">MangaReader</span>
+      <span class="mobile-logo-subtitle">Dark Edition</span>
+    </div>
+  </header>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-overlay" [class.active]="isMobileMenuOpen()" (click)="closeMobileMenu()"></div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.mobile-open]="isMobileMenuOpen()">
     <div class="logo">
       <div class="logo-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -16,7 +34,7 @@
     <nav class="navigation">
       <div class="nav-section">
         <div class="nav-label">Navigation</div>
-        <a routerLink="/galleries" routerLinkActive="active" class="nav-item">
+        <a routerLink="/galleries" routerLinkActive="active" class="nav-item" (click)="closeMobileMenu()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
             <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
@@ -25,20 +43,20 @@
           </svg>
           Galleries
         </a>
-        <a routerLink="/sites" routerLinkActive="active" class="nav-item">
+        <a routerLink="/sites" routerLinkActive="active" class="nav-item" (click)="closeMobileMenu()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
             <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="currentColor" stroke-width="2"/>
           </svg>
           Sites
         </a>
-        <a routerLink="/downloads" routerLinkActive="active" class="nav-item">
+        <a routerLink="/downloads" routerLinkActive="active" class="nav-item" (click)="closeMobileMenu()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="currentColor" stroke-width="2"/>
           </svg>
           Downloads
         </a>
-        <a routerLink="/bookmarks" routerLinkActive="active" class="nav-item">
+        <a routerLink="/bookmarks" routerLinkActive="active" class="nav-item" (click)="closeMobileMenu()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="2"/>
           </svg>

@@ -128,6 +128,26 @@ interface MangaSite {
     .site-link:hover {
       color: #60a5fa;
     }
+
+    /* Mobile Styles */
+    @media (max-width: 768px) {
+      .sites-container {
+        padding: 16px;
+      }
+
+      .page-header h1 {
+        font-size: 24px;
+      }
+
+      .sites-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .site-card {
+        padding: 20px;
+      }
+    }
   `]
 })
 export class SitesComponent {

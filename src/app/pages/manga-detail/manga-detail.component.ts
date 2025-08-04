@@ -346,6 +346,62 @@ interface MangaDetail {
         max-width: 300px;
         margin: 0 auto;
       }
+
+      .manga-detail-container {
+        padding: 16px;
+      }
+
+      .manga-details h1 {
+        font-size: 28px;
+      }
+
+      .author {
+        font-size: 16px;
+      }
+
+      .manga-meta {
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .description {
+        font-size: 14px;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .primary-btn, .secondary-btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .chapters-section h2 {
+        font-size: 20px;
+      }
+
+      .chapter-item {
+        padding: 12px 16px;
+      }
+
+      .chapter-info {
+        gap: 12px;
+      }
+
+      .chapter-number {
+        min-width: 50px;
+        font-size: 14px;
+      }
+
+      .chapter-title {
+        font-size: 14px;
+      }
+
+      .chapter-date {
+        font-size: 12px;
+      }
     }
   `]
 })

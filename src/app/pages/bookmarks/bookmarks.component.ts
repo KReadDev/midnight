@@ -275,6 +275,72 @@ interface BookmarkedManga {
       padding: 4px 8px;
       border-radius: 4px;
     }
+
+    /* Mobile Styles */
+    @media (max-width: 768px) {
+      .bookmarks-container {
+        padding: 16px;
+      }
+
+      .page-header h1 {
+        font-size: 24px;
+      }
+
+      .header-content {
+        flex-direction: column;
+        gap: 16px;
+        align-items: stretch;
+      }
+
+      .header-text {
+        align-items: center;
+        text-align: center;
+      }
+
+      .header-actions {
+        justify-content: center;
+      }
+
+      .search-section {
+        margin-bottom: 24px;
+      }
+
+      .search-bar {
+        max-width: none;
+      }
+
+      .bookmarks-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+
+      .bookmark-card {
+        border-radius: 8px;
+      }
+
+      .manga-info {
+        padding: 12px;
+      }
+
+      .manga-info h3 {
+        font-size: 14px;
+      }
+
+      .manga-info p {
+        font-size: 12px;
+      }
+
+      .genre-tag {
+        font-size: 10px;
+        padding: 2px 6px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .bookmarks-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   `]
 })
 export class BookmarksComponent {

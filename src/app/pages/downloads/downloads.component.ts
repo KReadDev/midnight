@@ -268,6 +268,57 @@ interface Download {
       border-color: #dc2626;
       color: #ffffff;
     }
+
+    /* Mobile Styles */
+    @media (max-width: 768px) {
+      .downloads-container {
+        padding: 16px;
+      }
+
+      .page-header h1 {
+        font-size: 24px;
+      }
+
+      .download-tabs {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .tab-btn {
+        flex: 1;
+        text-align: center;
+        padding: 10px 12px;
+        font-size: 12px;
+      }
+
+      .download-item {
+        flex-direction: column;
+        gap: 16px;
+        align-items: stretch;
+        padding: 16px;
+      }
+
+      .download-info {
+        min-width: unset;
+        justify-content: flex-start;
+      }
+
+      .download-progress {
+        min-width: unset;
+      }
+
+      .download-actions {
+        justify-content: center;
+      }
+
+      .download-details h3 {
+        font-size: 14px;
+      }
+
+      .download-details p {
+        font-size: 12px;
+      }
+    }
   `]
 })
 export class DownloadsComponent {

@@ -298,6 +298,84 @@ interface Manga {
       padding: 4px 8px;
       border-radius: 4px;
     }
+
+    /* Mobile Styles */
+    @media (max-width: 768px) {
+      .galleries-container {
+        padding: 16px;
+      }
+
+      .page-header h1 {
+        font-size: 24px;
+        margin-bottom: 24px;
+      }
+
+      .categories {
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 32px;
+      }
+
+      .category-btn {
+        min-width: unset;
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 20px;
+      }
+
+      .count {
+        margin-top: 0;
+      }
+
+      .search-section {
+        flex-direction: column;
+        gap: 16px;
+        align-items: stretch;
+      }
+
+      .search-bar {
+        order: 2;
+      }
+
+      .view-toggle, .menu-toggle {
+        order: 1;
+        align-self: center;
+      }
+
+      .manga-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+
+      .manga-card {
+        border-radius: 8px;
+      }
+
+      .manga-info {
+        padding: 12px;
+      }
+
+      .manga-info h3 {
+        font-size: 14px;
+      }
+
+      .manga-info p {
+        font-size: 12px;
+      }
+
+      .genre-tag {
+        font-size: 10px;
+        padding: 2px 6px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .manga-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   `]
 })
 export class GalleriesComponent {
