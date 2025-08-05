@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   { path: '', redirectTo: '/galleries', pathMatch: 'full' },
   { path: 'galleries', loadComponent: () => import('./pages/galleries/galleries.component').then(m => m.GalleriesComponent) },
+  { path: 'gallery/:category', loadComponent: () => import('./pages/gallery-view/gallery-view.component').then(m => m.GalleryViewComponent) },
   { path: 'sites', loadComponent: () => import('./pages/sites/sites.component').then(m => m.SitesComponent) },
   { path: 'downloads', loadComponent: () => import('./pages/downloads/downloads.component').then(m => m.DownloadsComponent) },
   { path: 'bookmarks', loadComponent: () => import('./pages/bookmarks/bookmarks.component').then(m => m.BookmarksComponent) },

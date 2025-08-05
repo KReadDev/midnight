@@ -98,12 +98,12 @@ interface Download {
 
     .download-tabs {
       display: flex;
-      gap: 2px;
+      gap: 0;
       margin-bottom: 32px;
-      background: #2a2a2a;
+      background: #121417;
       border-radius: 8px;
       padding: 4px;
-      width: fit-content;
+      width: 100%;
     }
 
     .tab-btn {
@@ -116,15 +116,17 @@ interface Download {
       border-radius: 6px;
       cursor: pointer;
       transition: all 0.2s ease;
+      flex: 1;
+      text-align: center;
     }
 
     .tab-btn:hover {
       color: #ffffff;
-      background: #3a3a3a;
+      background: #1a1d21;
     }
 
     .tab-btn.active {
-      background: #3b82f6;
+      background: #3c83f6;
       color: #ffffff;
     }
 
@@ -135,7 +137,7 @@ interface Download {
     }
 
     .download-item {
-      background: #2a2a2a;
+      background: #121417;
       border: 1px solid #3a3a3a;
       border-radius: 12px;
       padding: 20px;
@@ -206,7 +208,7 @@ interface Download {
 
     .progress-fill {
       height: 100%;
-      background: #3b82f6;
+      background: #3c83f6;
       border-radius: 3px;
       transition: width 0.3s ease;
     }
@@ -226,7 +228,7 @@ interface Download {
     }
 
     .status-badge.active {
-      background: #3b82f6;
+      background: #3c83f6;
       color: #ffffff;
     }
 
@@ -259,7 +261,7 @@ interface Download {
     }
 
     .action-btn:hover {
-      background: #3a3a3a;
+      background: #1a1d21;
       color: #ffffff;
     }
 
