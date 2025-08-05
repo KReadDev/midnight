@@ -115,7 +115,7 @@ interface MangaDetail {
     }
 
     .back-btn:hover {
-      background: #3a3a3a;
+      background: #121417;
       color: #ffffff;
     }
 
@@ -173,7 +173,7 @@ interface MangaDetail {
     }
 
     .status.completed {
-      background: #3b82f6;
+      background: #3c83f6;
       color: #ffffff;
     }
 
@@ -216,7 +216,7 @@ interface MangaDetail {
     }
 
     .primary-btn {
-      background: #3b82f6;
+      background: #3c83f6;
       border: none;
       border-radius: 8px;
       padding: 12px 24px;
@@ -244,7 +244,7 @@ interface MangaDetail {
     }
 
     .secondary-btn:hover {
-      background: #3a3a3a;
+      background: #121417;
       color: #ffffff;
     }
 
@@ -262,7 +262,7 @@ interface MangaDetail {
     }
 
     .icon-btn:hover {
-      background: #3a3a3a;
+      background: #121417;
       color: #ffffff;
     }
 
@@ -274,7 +274,7 @@ interface MangaDetail {
     }
 
     .chapters-list {
-      background: #2a2a2a;
+      background: #121417;
       border-radius: 12px;
       overflow: hidden;
     }
@@ -294,7 +294,7 @@ interface MangaDetail {
     }
 
     .chapter-item:hover {
-      background: #3a3a3a;
+      background: #1a1d21;
     }
 
     .chapter-item.read {
@@ -309,7 +309,7 @@ interface MangaDetail {
 
     .chapter-number {
       font-weight: 600;
-      color: #3b82f6;
+      color: #3c83f6;
       min-width: 60px;
     }
 

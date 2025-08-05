@@ -23,7 +23,7 @@ interface BookmarkedManga {
           <div class="header-text">
             <div class="header-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" fill="#3b82f6" stroke="#3b82f6" stroke-width="2"/>
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" fill="#3c83f6" stroke="#3c83f6" stroke-width="2"/>
               </svg>
             </div>
             <div>
@@ -136,7 +136,7 @@ interface BookmarkedManga {
     }
 
     .view-toggle, .menu-toggle {
-      background: #3b82f6;
+      background: #3c83f6;
       border: none;
       border-radius: 6px;
       padding: 10px;
@@ -172,7 +172,7 @@ interface BookmarkedManga {
 
     .search-bar input {
       width: 100%;
-      background: #2a2a2a;
+      background: #121417;
       border: 1px solid #3a3a3a;
       border-radius: 8px;
       padding: 12px 16px 12px 48px;
@@ -183,7 +183,7 @@ interface BookmarkedManga {
     }
 
     .search-bar input:focus {
-      border-color: #3b82f6;
+      border-color: #3c83f6;
     }
 
     .search-bar input::placeholder {
@@ -197,7 +197,7 @@ interface BookmarkedManga {
     }
 
     .bookmark-card {
-      background: #2a2a2a;
+      background: #121417;
       border-radius: 12px;
       overflow: hidden;
       transition: all 0.2s ease;
@@ -207,7 +207,7 @@ interface BookmarkedManga {
     }
 
     .bookmark-card:hover {
-      background: #3a3a3a;
+      background: #1a1d21;
       transform: translateY(-2px);
     }
 
@@ -258,7 +258,7 @@ interface BookmarkedManga {
     }
 
     .last-chapter {
-      color: #3b82f6 !important;
+      color: #3c83f6 !important;
       margin-bottom: 12px !important;
     }
 

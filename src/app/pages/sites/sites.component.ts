@@ -70,7 +70,7 @@ interface MangaSite {
     }
 
     .site-card {
-      background: #2a2a2a;
+      background: #121417;
       border: 1px solid #3a3a3a;
       border-radius: 12px;
       padding: 24px;
@@ -78,7 +78,7 @@ interface MangaSite {
     }
 
     .site-card:hover {
-      background: #3a3a3a;
+      background: #1a1d21;
       border-color: #4a4a4a;
       transform: translateY(-2px);
     }
@@ -86,7 +86,7 @@ interface MangaSite {
     .site-icon {
       width: 48px;
       height: 48px;
-      background: #3b82f6;
+      background: #3c83f6;
       border-radius: 8px;
       display: flex;
       align-items: center;
@@ -118,7 +118,7 @@ interface MangaSite {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      color: #3b82f6;
+      color: #3c83f6;
       text-decoration: none;
       font-size: 14px;
       font-weight: 500;
