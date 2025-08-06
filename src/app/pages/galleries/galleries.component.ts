@@ -14,7 +14,7 @@ interface MangaCategory {
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './galleries.component.html',
-  styleUrls: ['./galleries.component.scss']
+  styleUrls: ['./galleries.component.css']
 })
 export class GalleriesComponent {
   categories: MangaCategory[] = [
