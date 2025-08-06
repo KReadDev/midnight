@@ -1,0 +1,67 @@
+<div class="bookmarks-container">
+    <header class="page-header">
+        <div class="header-content">
+            <div class="header-text">
+                <div class="header-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" fill="#3c83f6" stroke="#3c83f6"
+                            stroke-width="2" />
+                    </svg>
+                </div>
+                <div>
+                    <h1>Bookmarks</h1>
+                    <p class="page-subtitle">Your bookmarked manga collection</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="view-toggle">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" />
+                        <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" />
+                        <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" />
+                        <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                </button>
+                <button class="menu-toggle">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2" />
+                        <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2" />
+                        <line x1="3" y1="18" x2="21" y2="18" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="search-section">
+        <div class="search-bar">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" />
+                <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" />
+            </svg>
+            <input type="text" placeholder="Search bookmarked manga..." />
+        </div>
+    </div>
+
+    <div class="bookmarks-grid">
+        <div *ngFor="let manga of bookmarkedManga" class="bookmark-card" [routerLink]="['/manga', manga.id]">
+            <div class="manga-image">
+                <img [src]="manga.image" [alt]="manga.title" />
+                <button class="favorite-btn active">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" fill="#3b82f6" stroke="#3b82f6"
+                            stroke-width="2" />
+                    </svg>
+                </button>
+            </div>
+            <div class="manga-info">
+                <h3>{{ manga.title }}</h3>
+                <p>{{ manga.chapters }} chapters</p>
+                <p class="last-chapter">Last: {{ manga.lastChapter }}</p>
+                <div class="genres">
+                    <span *ngFor="let genre of manga.genres" class="genre-tag">{{ genre }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

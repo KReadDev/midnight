@@ -1,0 +1,60 @@
+<div class="manga-detail-container" *ngIf="manga">
+    <header class="detail-header">
+        <button routerLink="/galleries" class="back-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" />
+            </svg>
+            Back to Galleries
+        </button>
+    </header>
+
+    <div class="manga-info-section">
+        <div class="manga-cover">
+            <img [src]="manga.image" [alt]="manga.title" />
+        </div>
+
+        <div class="manga-details">
+            <h1>{{ manga.title }}</h1>
+            <p class="author">by {{ manga.author }}</p>
+
+            <div class="manga-meta">
+                <span class="status" [class]="manga.status.toLowerCase()">{{ manga.status }}</span>
+                <span class="rating">★ {{ manga.rating }}/10</span>
+                <span class="chapter-count">{{ manga.totalChapters }} chapters</span>
+            </div>
+
+            <div class="genres">
+                <span *ngFor="let genre of manga.genres" class="genre-tag">{{ genre }}</span>
+            </div>
+
+            <p class="description">{{ manga.description }}</p>
+
+            <div class="action-buttons">
+                <button class="primary-btn">Start Reading</button>
+                <button class="secondary-btn">Add to Bookmarks</button>
+                <button class="icon-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="currentColor"
+                            stroke-width="2" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="chapters-section">
+        <h2>Chapters</h2>
+        <div class="chapters-list">
+            <div *ngFor="let chapter of manga.chapters" class="chapter-item" [class.read]="chapter.read">
+                <div class="chapter-info">
+                    <span class="chapter-number">{{ chapter.number }}</span>
+                    <span class="chapter-title">{{ chapter.title }}</span>
+                </div>
+                <div class="chapter-meta">
+                    <span class="chapter-date">{{ chapter.date }}</span>
+                    <div class="read-indicator" *ngIf="chapter.read"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
