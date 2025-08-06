@@ -44,24 +44,6 @@
     </div>
 
     <div class="bookmarks-grid">
-        <div *ngFor="let manga of bookmarkedManga" class="bookmark-card" [routerLink]="['/manga', manga.id]">
-            <div class="manga-image">
-                <img [src]="manga.image" [alt]="manga.title" />
-                <button class="favorite-btn active">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" fill="#3b82f6" stroke="#3b82f6"
-                            stroke-width="2" />
-                    </svg>
-                </button>
-            </div>
-            <div class="manga-info">
-                <h3>{{ manga.title }}</h3>
-                <p>{{ manga.chapters }} chapters</p>
-                <p class="last-chapter">Last: {{ manga.lastChapter }}</p>
-                <div class="genres">
-                    <span *ngFor="let genre of manga.genres" class="genre-tag">{{ genre }}</span>
-                </div>
-            </div>
-        </div>
+        <app-card *ngFor="let manga of bookmarkedManga" [manga]="manga" [routerLink]="['/manga', manga.id]"></app-card>
     </div>
 </div>

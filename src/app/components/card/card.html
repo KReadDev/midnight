@@ -1,0 +1,18 @@
+<div class="manga-card" [routerLink]="['/manga', manga.id]">
+    <div class="manga-image">
+        <img [src]="manga.cover" [alt]="manga.name" />
+        <button class="favorite-btn" [class.active]="manga.bookmarked">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"
+                    [attr.fill]="manga.bookmarked ? '#3c83f6' : 'none'" stroke="#3c83f6" stroke-width="2" />
+            </svg>
+        </button>
+    </div>
+    <div class="manga-info">
+        <h3>{{ manga.name }}</h3>
+        <p>{{ manga.pages }} chapters</p>
+        <div class="genres">
+            <span *ngFor="let genre of manga.tags" class="genre-tag">{{ genre }}</span>
+        </div>
+    </div>
+</div>

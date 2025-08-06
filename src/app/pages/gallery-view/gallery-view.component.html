@@ -39,44 +39,27 @@
 
     <!-- Grid View -->
     <div *ngIf="isGridView()" class="manga-grid">
-        <div *ngFor="let manga of mangaList" class="manga-card" [routerLink]="['/manga', manga.id]">
-            <div class="manga-image">
-                <img [src]="manga.image" [alt]="manga.title" />
-                <button class="favorite-btn" [class.active]="manga.isFavorite">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"
-                            [attr.fill]="manga.isFavorite ? '#3c83f6' : 'none'" stroke="#3c83f6" stroke-width="2" />
-                    </svg>
-                </button>
-            </div>
-            <div class="manga-info">
-                <h3>{{ manga.title }}</h3>
-                <p>{{ manga.chapters }} chapters</p>
-                <div class="genres">
-                    <span *ngFor="let genre of manga.genres" class="genre-tag">{{ genre }}</span>
-                </div>
-            </div>
-        </div>
+        <app-card *ngFor="let manga of mangaList" [manga]="manga" [routerLink]="['/manga', manga.id]"></app-card>
     </div>
 
     <!-- List View -->
     <div *ngIf="!isGridView()" class="manga-list">
         <div *ngFor="let manga of mangaList" class="manga-list-item" [routerLink]="['/manga', manga.id]">
             <div class="manga-thumbnail">
-                <img [src]="manga.image" [alt]="manga.title" />
+                <img [src]="manga.cover" [alt]="manga.name" />
             </div>
             <div class="manga-details">
-                <h3>{{ manga.title }}</h3>
-                <p class="chapter-count">{{ manga.chapters }} chapters</p>
-                <p *ngIf="manga.lastRead" class="last-read">Last read: {{ manga.lastRead }}</p>
+                <h3>{{ manga.name }}</h3>
+                <p class="chapter-count">{{ manga.pages }} chapters</p>
+                <p *ngIf="manga.bookmarked" class="last-read">Last read: {{ manga.lastRead }}</p>
                 <div class="genres">
-                    <span *ngFor="let genre of manga.genres" class="genre-tag">{{ genre }}</span>
+                    <span *ngFor="let genre of manga.tags" class="genre-tag">{{ genre }}</span>
                 </div>
             </div>
-            <button class="favorite-btn" [class.active]="manga.isFavorite">
+            <button class="favorite-btn" [class.active]="manga.bookmarked">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"
-                        [attr.fill]="manga.isFavorite ? '#3c83f6' : 'none'" stroke="#3c83f6" stroke-width="2" />
+                        [attr.fill]="manga.bookmarked ? '#3c83f6' : 'none'" stroke="#3c83f6" stroke-width="2" />
                 </svg>
             </button>
         </div>
