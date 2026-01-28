@@ -1,0 +1,33 @@
+package com.personal.manga.domain;
+
+public class DownloadData {
+    private String id;
+    private String mangaId;
+    private String name;
+    private int progress;
+    private String status;
+    private String source;
+    private String error;
+
+    // Getters and setters
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+
+    public String getMangaId() { return mangaId; }
+    public void setMangaId(String mangaId) { this.mangaId = mangaId; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public int getProgress() { return progress; }
+    public void setProgress(int progress) { this.progress = progress; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    public String getSource() { return source; }
+    public void setSource(String source) { this.source = source; }
+
+    public String getError() { return error; }
+    public void setError(String error) { this.error = error; }
+}
