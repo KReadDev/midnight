@@ -6,5 +6,6 @@ export interface Manga {
     tags: string[];
     pages: number;
     bookmarked: boolean;
+    pdf: string;
     lastRead: string | null | Date;
 }

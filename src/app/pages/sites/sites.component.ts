@@ -1,29 +1,26 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { SiteService } from '../../services/site.service';
+import { Site } from '../../model/Site';
+import { RouterLink } from '@angular/router';
+import SitePlugin from '../../plugins/sitePlugin';
 
-interface MangaSite {
-  id: number;
-  name: string;
-  icon: string;
-  url: string;
-  description: string;
-}
 
 @Component({
   selector: 'app-sites',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './sites.component.html',
   styleUrls: ['./sites.component.css']
 })
 export class SitesComponent {
-  sites: MangaSite[] = [
-    {
-      id: 1,
-      name: 'MangaPlus',
-      icon: 'https://images.pexels.com/photos/1261728/pexels-photo-1261728.jpeg?auto=compress&cs=tinysrgb&w=48',
-      url: 'https://mangaplus.shueisha.co.jp',
-      description: 'Official manga reading platform by Shueisha with free chapters from popular series.'
-    }
-  ];
+
+  constructor(private siteService: SiteService) {}
+
+  async ngOnInit(): Promise<void> {
+    // this.siteService.getAllSites().subscribe(sites => this.sites = sites);
+    this.sites = (await SitePlugin.getAllSites()).sites
+  }
+
+  sites: Site[] = [];
 }

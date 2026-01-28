@@ -5,5 +5,6 @@ export interface SiteManga {
  pages: number;
  tags: string[];  
  pagesLinks: string[]; 
+ bookmarked?: boolean;
 }
 

@@ -1,10 +1,13 @@
 package com.personal.manga.scrapper;
 
+import android.os.Environment;
+
 import com.itextpdf.text.*;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfDocument;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.personal.manga.domain.Constants;
 //import com.itextpdf.io.image.ImageDataFactory;
 //import com.itextpdf.kernel.geom.PageSize;
 
@@ -25,28 +28,28 @@ public class converter {
         try{
             Image imgi;
             Document doc = new Document();
-            PdfWriter pdfWriter = PdfWriter.getInstance(doc, new FileOutputStream("F:\\site\\pdfs\\"+name+".pdf"));
+            new File(Constants.location +"pdfs/").mkdirs();
+          FileOutputStream os = new FileOutputStream(Constants.location + "pdfs/" + name + ".pdf");
+          PdfWriter pdfWriter = PdfWriter.getInstance(doc, os);
             pdfWriter.open();
             doc.open();
 
             File imgDir = new File(location);
-            System.out.println("imgDir.list() = " + imgDir.list());
             List<String> locations =new ArrayList<>();
 
             for (File file : imgDir.listFiles()) {
+              if(!file.getName().endsWith("txt")){
                 locations.add(file.getPath());
+              }
             }
 
-            locations.sort(Comparator.comparingInt(converter::extractNumber));
+          locations.sort(Comparator.comparingInt(converter::extractNumber));
 
             for (String s : locations) {
-                System.out.println("s = " + s);
-
 
 //            Arrays.sort(files);
 //            for (File img : imgDir.listFiles()) {
                 if(s.contains(".jpg")) {
-                    System.out.println("img = " + s);
                     imgi = Image.getInstance(s);
 //                    imgi = Image.getInstance("F:\\site\\downloading\\I Still Want To Try\\I Still Want To Try_1.png");
                     doc.setPageSize(imgi);
@@ -57,6 +60,13 @@ public class converter {
             }
             doc.close();
             pdfWriter.close();
+            os.close();
+
+          for (File file : imgDir.listFiles()) {
+            file.delete();
+          }
+
+          imgDir.delete();
         } catch (DocumentException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -68,7 +78,7 @@ public class converter {
     }
 
     private static int extractNumber(String s) {
-        return Integer.parseInt(s.replaceAll("\\D", ""));
+        return Integer.parseInt(s.split("_")[1].split("\\.")[0]);
     }
 
 }

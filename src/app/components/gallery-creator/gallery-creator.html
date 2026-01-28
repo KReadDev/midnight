@@ -1,0 +1,28 @@
+<div class="overlay" [class.show]="globalService.showPopup">
+  <div class="popup-overlay" [class.show]="globalService.showPopup" (click)="close()"></div>
+  <div class="popup-content" [class.show]="globalService.showPopup">
+    <div class="popup-header">
+      <h2 class="popup-title">CREATE NEW GALLERY</h2>
+      <button class="close-button" (click)="close()">&times;</button>
+    </div>
+    <!-- <div class="popup-body"> -->
+
+    <!-- <div class=""> -->
+    <div class="input-group">
+      <Label htmlFor="gallery-name">Gallery Name</Label>
+      <Input id="gallery-name" placeholder="Enter gallery name..." [(ngModel)]="galleryName" ngDefaultControl />
+    </div>
+
+    <div class="action-buttons input-group">
+      <Button class="primary-btn" (click)="handleCreateGallery()">
+        Create Gallery
+      </Button>
+      <Button class="secondary-btn" (click)="close()">
+        Cancel
+      </Button>
+    </div>
+    <!-- </div> -->
+
+    <!-- </div> -->
+  </div>
+</div>

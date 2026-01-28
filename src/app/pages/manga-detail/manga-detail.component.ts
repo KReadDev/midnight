@@ -1,62 +1,94 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MangaService } from '../../services/manga.service';
+import { Manga } from '../../model/Manga';
+import { GalleryService } from '../../services/gallery.service';
+import { Gallery } from '../../model/Gallery';
+import GalleryPlugin from '../../plugins/galleryPlugin';
+import MangaPlugin from '../../plugins/mangaPlugin';
+import { Capacitor } from '@capacitor/core';
 
-interface Chapter {
-  id: number;
-  number: number;
-  title: string;
-  date: string;
-  read: boolean;
-}
 
-interface MangaDetail {
-  id: number;
-  title: string;
-  author: string;
-  status: string;
-  description: string;
-  image: string;
-  genres: string[];
-  chapters: Chapter[];
-  rating: number;
-  totalChapters: number;
-}
+
 
 @Component({
   selector: 'app-manga-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './manga-detail.component.html',
   styleUrls: ['./manga-detail.component.css']
 })
 export class MangaDetailComponent implements OnInit {
-  manga: MangaDetail | null = null;
+  manga: Manga | null = null;
+  showGalleryModal = false;
+  galleries: Gallery[] = [];
 
-  constructor(private route: ActivatedRoute) {}
+  cover : string = '';
 
-  ngOnInit() {
+  constructor(
+    private route: ActivatedRoute,
+    private mangaService: MangaService,
+    private galleryService: GalleryService,
+    private router: Router
+  ) {}
+
+  async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
-    this.loadMangaDetail(Number(id));
+    this.loadMangaDetail(id!);
+    // this.galleryService.getGalleries().subscribe(galleries => {
+    //   this.galleries = galleries;
+    // });
+    this.galleries =(await GalleryPlugin.getAllGalleries()).galleries as Gallery[];
+    
   }
 
-  private loadMangaDetail(id: number) {
+  private async loadMangaDetail(id?: string) {
     // Mock data - in a real app, this would come from a service
-    this.manga = {
-      id: id,
-      title: 'One Piece',
-      author: 'Eiichiro Oda',
-      status: 'Ongoing',
-      description: 'Monkey D. Luffy sails with his crew of Straw Hat Pirates through the Grand Line to find the treasure One Piece and become the next king of the pirates.',
-      image: 'https://images.pexels.com/photos/1261728/pexels-photo-1261728.jpeg?auto=compress&cs=tinysrgb&w=400',
-      genres: ['Action', 'Adventure', 'Comedy', 'Drama', 'Shounen'],
-      rating: 9.2,
-      totalChapters: 1090,
-      chapters: [
-        { id: 1090, number: 1090, title: 'Kizaru', date: '2023-11-20', read: false },
-        { id: 1089, number: 1089, title: 'Siege', date: '2023-11-13', read: true },
-        { id: 1088, number: 1088, title: 'Final Lesson', date: '2023-11-06', read: true }
-      ]
-    };
+    // this.mangaService.getMangaById(id!).subscribe(manga => {
+    //   this.manga = manga;
+    // });
+    this.manga = (await MangaPlugin.getMangaById({id: id!})).manga;
+    this.cover = Capacitor.convertFileSrc(this.manga.cover);
+    console.log("cover ",this.cover);
+  }
+
+  setShowGalleryModal(value: boolean) {
+    this.showGalleryModal = value;
+  }
+
+  addToGallery(galleryId: string) {
+    // this.galleryService.addMangaToGallery(galleryId, this.manga!.id!).subscribe();
+    this.showGalleryModal = false;
+    GalleryPlugin.addToGallery({id: galleryId, mangaid:this.manga?.id!})
+  }
+
+  searchTag(tag: string) {
+    this.router.navigate(['/gallery/0'], {
+      queryParams: {
+        tags: tag,
+      }
+    });
+  }
+
+  bookmarkManga(){
+    // this.mangaService.addMangaToBookmarks(this.manga!.id!).subscribe();
+    this.manga!.bookmarked = !this.manga!.bookmarked;
+    MangaPlugin.bookmark({manga: {object: this.manga!}});
+  }
+
+  readManga(){
+    // this.router.navigate(["http://10.0.0.112:8080/pdfs/"+this.manga!.name+".pdf"]);
+    // window.open("http://10.0.0.112:8080/pdfs/"+this.manga!.name+".pdf")
+    this.router.navigate(["/mangaviewer/"+this.manga!.id]);
+    
+  }
+
+  deleteManga(){
+    MangaPlugin.deleteManga({manga: {object: this.manga!}});
+  }
+
+  reorderManga(){
+   MangaPlugin.reorderManga(); 
   }
 }

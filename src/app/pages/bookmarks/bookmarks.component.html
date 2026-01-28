@@ -1,5 +1,5 @@
-<div class="bookmarks-container">
-    <header class="page-header">
+<div class="gallery-container">
+    <!-- <header class="page-header">
         <div class="header-content">
             <div class="header-text">
                 <div class="header-icon">
@@ -13,37 +13,98 @@
                     <p class="page-subtitle">Your bookmarked manga collection</p>
                 </div>
             </div>
-            <div class="header-actions">
-                <button class="view-toggle">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" />
-                        <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" />
-                        <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" />
-                        <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" />
-                    </svg>
-                </button>
-                <button class="menu-toggle">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2" />
-                        <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2" />
-                        <line x1="3" y1="18" x2="21" y2="18" stroke="currentColor" stroke-width="2" />
-                    </svg>
-                </button>
-            </div>
+            
         </div>
-    </header>
+    </header> -->
 
     <div class="search-section">
-        <div class="search-bar">
+
+        <div class="searcher">
+            <div class="search-bar">
+
+                <input type="text" placeholder="Search manga or tags..." />
+
+            </div>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" />
                 <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" />
             </svg>
-            <input type="text" placeholder="Search bookmarked manga..." />
+            <div class="filter-btn">
+                <button class="back-btn" (click)="open()">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-funnel" viewBox="0 0 16 16">
+                        <path
+                            d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="view-controls">
+            <button class="view-toggle" [class.active]="isGridView()" (click)="setGridView()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" />
+                    <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" />
+                    <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" />
+                    <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" />
+                </svg>
+            </button>
+            <button class="view-toggle" [class.active]="!isGridView()" (click)="setListView()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2" />
+                    <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2" />
+                    <line x1="3" y1="18" x2="21" y2="18" stroke="currentColor" stroke-width="2" />
+                </svg>
+            </button>
         </div>
     </div>
 
-    <div class="bookmarks-grid">
+    <div *ngIf="isGridView()" class="manga-grid">
+        <app-card *ngFor="let manga of bookmarkedManga" [manga]="manga" [routerLink]="['/manga', manga.id]"  ></app-card>
+    </div>
+
+    <!-- <div class="bookmarks-grid">
         <app-card *ngFor="let manga of bookmarkedManga" [manga]="manga" [routerLink]="['/manga', manga.id]"></app-card>
+    </div> -->
+
+    <div *ngIf="!isGridView()" class="manga-list">
+        <div *ngFor="let manga of bookmarkedManga" class="manga-list-item" [routerLink]="['/manga', manga.id]">
+            <div class="manga-thumbnail">
+                <img [src]="manga.cover" [alt]="manga.name" />
+            </div>
+            <div class="manga-details">
+                <h3>{{ manga.name }}</h3>
+                <p class="chapter-count">{{ manga.pages }} chapters</p>
+                <p *ngIf="manga.bookmarked" class="last-read">Last read: {{ manga.lastRead }}</p>
+                <div class="genres">
+                    <span *ngFor="let genre of manga.tags | slice:0:2" class="genre-tag">{{ genre }}</span>
+                </div>
+            </div>
+            <button class="favorite-btn" [class.active]="manga.bookmarked">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"
+                        [attr.fill]="manga.bookmarked ? '#3c83f6' : 'none'" stroke="#3c83f6" stroke-width="2" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<div class="overlay" *ngIf="showtags">
+    <div class="popup-overlay"  (click)="close()"></div>
+    <div class="tag-window">
+        <div class="tags">
+            <div class="tag-item" *ngFor="let tag of tags">
+                <input id="tag" type="checkbox" class="check" (change)="addTag(tag)" />
+                <label for="tag">{{tag}}</label> 
+            </div>
+
+        </div>
+        <div class="actions">
+            <button class="primary-btn" (click)="apply()">Apply</button>
+            <button class="secondary-btn" (click)="close()">Close</button>
+        </div>
+
     </div>
 </div>

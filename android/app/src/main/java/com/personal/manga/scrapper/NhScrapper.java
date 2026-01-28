@@ -7,10 +7,10 @@ import com.personal.manga.domain.SiteManga;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.stereotype.Service;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
+//import org.springframework.stereotype.Service;
+//
+//import javax.imageio.ImageIO;
+//import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -20,7 +20,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+//@Service
 public class NhScrapper {
 
     private final String link = "https://nhentai.net";
@@ -32,7 +32,11 @@ public class NhScrapper {
     public List<SiteManga> getMangas(String sitelink)  {
         Document doc = ScrapperFunctions.getDoc(sitelink);
 
-        Element container = ScrapperFunctions.getElementAtIndex(doc, "class", "index-container", 1);
+        Element container = ScrapperFunctions.getElementAtIndex(doc, "class", "index-container", 0);
+
+        if(container.hasClass("index-popular")){
+          container = ScrapperFunctions.getElementAtIndex(doc, "class", "index-container", 1);
+        }
         Elements galleries = ScrapperFunctions.getElements(container, "class", "gallery");
 
         List<SiteManga> mangaList = new ArrayList<>();
@@ -49,7 +53,7 @@ public class NhScrapper {
             String href = atag.attr("href");
             String id = href.replace("/g/","").replace("/","");
 
-            SiteManga manga = new SiteManga(id,name,imgLink);
+          SiteManga manga = new SiteManga(id,name,imgLink);
             mangaList.add(manga);
 
         }
@@ -68,8 +72,10 @@ public class NhScrapper {
             List<PageLink> links = new ArrayList<>();
 
             for (Element page : pages) {
-                String link = page.attr("href");
-                System.out.println("link = " + link);
+              String link = "//nhentai.net"+page.attr("href");
+              if(page.hasClass("current")){
+                link = "#";
+              }
                 String number = page.text();
                 links.add(new PageLink(number,link));
             }
@@ -93,7 +99,26 @@ public class NhScrapper {
 
         // name
         Element title = ScrapperFunctions.getElementAtIndex(info, "class", "title", 0);
-        String name = ScrapperFunctions.getElementAtIndex(title, "class", "pretty", 0).text();
+        String h1Name = ScrapperFunctions.getElementAtIndex(title, "class", "pretty", 0).text();
+      String name = h1Name.split("\\|")[0];
+      List<String> unwanted = new ArrayList<>();
+      unwanted.add("\"");
+      unwanted.add("/");
+      unwanted.add("<");
+      unwanted.add(">");
+      unwanted.add("*");
+      unwanted.add(":");
+      unwanted.add("?");
+      unwanted.add("|");
+      unwanted.add("\\");
+
+      for (String s : unwanted) {
+        name = name.replace(s,"");
+      }
+
+      while (name.endsWith(".")|| name.endsWith(" ")){
+        name = name.substring(0,name.length()-1);
+      }
 
         Elements tagContainers = ScrapperFunctions.getElements(info, "class", "tag-container");
 
@@ -160,12 +185,12 @@ public class NhScrapper {
 
         instance.downloads.add(dl);
 
-        try {
-            location = downloadManga(id, manga.getPages(), manga.getName(),dl);
-        } catch (IOException e) {
-            dl.setError("failed to download: "+e.getMessage() );
-            throw new RuntimeException(e);
-        }
+//        try {
+//            location = downloadManga(id, manga.getPages(), manga.getName(),dl);
+//        } catch (IOException e) {
+//            dl.setError("failed to download: "+e.getMessage() );
+//            throw new RuntimeException(e);
+//        }
 
         Manga manga1 = new Manga();
 
@@ -174,7 +199,7 @@ public class NhScrapper {
         manga1.setPages(manga.getPages());
         manga1.setBookmarked(false);
 
-        converter.convertToPdf(location,manga.getName());
+//        converter.convertToPdf(location,manga.getName());
 
         String coverlink = getCover(doc);
 
@@ -207,51 +232,49 @@ public class NhScrapper {
 
     }
 
-    private String downloadManga(String id, int count, String name, DownloadData dl) throws IOException {
-
-        String pathname = "F:\\site\\downloading\\" + name;
-        for (int i = 1; i <= count; i++) {
-            String newLink = "https://nhentai.net/g/"+id+"/"+i;
-            Document doc = ScrapperFunctions.getDoc(newLink);
-
-            Element gimg = ScrapperFunctions.getElementid(doc, "image-container");
-            String imgLink = "https:"+ ScrapperFunctions.getElementAtIndex(gimg, "tag", "img", 0).attr("data-src");
-
-            name=name.trim();
-            URL url = new URL(imgLink);
-
-            new File(pathname).mkdir();
-
-            BufferedInputStream in = new BufferedInputStream(url.openStream());
-            FileOutputStream fileOutputStream = new FileOutputStream("F:\\site\\downloading\\"+name+"\\"+name+""+i+".png");
-            byte dataBuff[] = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = in.read(dataBuff, 0, 1024)) != -1) {
-                fileOutputStream.write(dataBuff, 0, bytesRead);
-            }
-
-            fileOutputStream.close();
-            in.close();
-
-            File web = new File("F:\\site\\downloading\\"+name+"\\"+name+""+i+".png");
-            File jpg = new File("F:\\site\\downloading\\"+name+"\\"+name+"_"+i+".jpg");
-
-
-            BufferedImage image = ImageIO.read(web);
-            if (image != null) {
-                ImageIO.write(image, "jpg", jpg);
-            } else {
-                System.err.println("Failed to read WebP image.");
-            }
-
-            int res = (  (i*100) /count);
-            System.out.println("res = " + res);
-            dl.setProgress( res);
-        }
-
-        return pathname;
-
-    }
+//    private String downloadManga(String id, int count, String name, DownloadData dl) throws IOException {
+//
+//        String pathname = "F:\\site\\downloading\\" + name;
+//        for (int i = 1; i <= count; i++) {
+//            String newLink = "https://nhentai.net/g/"+id+"/"+i;
+//            Document doc = ScrapperFunctions.getDoc(newLink);
+//
+//            Element gimg = ScrapperFunctions.getElementid(doc, "image-container");
+//            String imgLink = "https:"+ ScrapperFunctions.getElementAtIndex(gimg, "tag", "img", 0).attr("data-src");
+//
+//            name=name.trim();
+//            URL url = new URL(imgLink);
+//
+//            new File(pathname).mkdir();
+//
+//            BufferedInputStream in = new BufferedInputStream(url.openStream());
+//            FileOutputStream fileOutputStream = new FileOutputStream("F:\\site\\downloading\\"+name+"\\"+name+""+i+".png");
+//            byte dataBuff[] = new byte[1024];
+//            int bytesRead;
+//            while ((bytesRead = in.read(dataBuff, 0, 1024)) != -1) {
+//                fileOutputStream.write(dataBuff, 0, bytesRead);
+//            }
+//
+//            fileOutputStream.close();
+//            in.close();
+//
+//            File web = new File("F:\\site\\downloading\\"+name+"\\"+name+""+i+".png");
+//            File jpg = new File("F:\\site\\downloading\\"+name+"\\"+name+"_"+i+".jpg");
+//
+//
+//            BufferedImage image = ImageIO.read(web);
+//            if (image != null) {
+//                ImageIO.write(image, "jpg", jpg);
+//            } else {
+//            }
+//
+//            int res = (  (i*100) /count);
+//            dl.setProgress( res);
+//        }
+//
+//        return pathname;
+//
+//    }
 
 
 }

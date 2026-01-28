@@ -10,12 +10,12 @@ public class SiteManga {
 
 
 
-    private String id;
-    private String name;
-    private String cover;
-    private int pages;
-    private List<String> tags;
-    private List<String> pagesLinks;
+    public String id;
+    public String name;
+    public String cover;
+    public int pages;
+    public List<String> tags;
+    public List<String> pagesLinks;
 
     public SiteManga(String id, String name, String cover) {
         this.id = id;
@@ -34,7 +34,15 @@ public class SiteManga {
 
     }
 
-    // Getters and setters
+  public SiteManga(String id, String name, String cover, int pages, List<String> tags) {
+    this.id = id;
+    this.name = name;
+    this.cover = cover;
+    this.pages = pages;
+    this.tags = tags;
+  }
+
+  // Getters and setters
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
@@ -57,4 +65,16 @@ public class SiteManga {
     public void setPagesLinks(List<String> pagesLinks) {
         this.pagesLinks = pagesLinks;
     }
+
+  @Override
+  public String toString() {
+    return "SiteManga{" +
+      "id='" + id + '\'' +
+      ", name='" + name + '\'' +
+      ", cover='" + cover + '\'' +
+      ", pages=" + pages +
+      ", tags=" + tags +
+      ", pagesLinks=" + pagesLinks +
+      '}';
+  }
 }

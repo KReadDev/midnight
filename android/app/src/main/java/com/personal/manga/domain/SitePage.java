@@ -4,8 +4,8 @@ import java.util.List;
 
 
 public class SitePage {
-    private List<PageLink> links;
-    private List<SiteManga> manga;
+    public List<PageLink> links;
+    public List<SiteManga> manga;
 
     public SitePage(List<PageLink> links, List<SiteManga> manga) {
         this.links = links;

@@ -1,0 +1,11 @@
+<div class="popup-overlay" [class.show]="show" (click)="close()">
+  <div class="popup-content" (click)="stopPropagation($event)">
+    <div class="popup-header">
+      <h2 class="popup-title">{{ title }}</h2>
+      <button class="close-button" (click)="close()">&times;</button>
+    </div>
+    <div class="popup-body">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

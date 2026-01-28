@@ -1,5 +1,7 @@
 package com.personal.manga.service;
 
+import android.content.Context;
+
 import com.personal.manga.domain.PageLink;
 import com.personal.manga.domain.SiteManga;
 
@@ -11,5 +13,5 @@ public interface siteService {
     public List<SiteManga> getMangasByTag(String link);
     public List<PageLink> getPageLinks(String link);
     public SiteManga getSiteManga(String id);
-    public void dowload(String id,SiteManga manga);
+    public void dowload(String id, SiteManga manga, Context context);
 }

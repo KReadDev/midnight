@@ -13,15 +13,22 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 60px;
+  height: 80px;
   background: #2a2a2a;
   border-bottom: 1px solid #3a3a3a;
   padding: 0 16px;
   align-items: center;
   gap: 16px;
-  z-index: 1000;
+  z-index: 2;
 }
 
+.mobile-header-content {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  
+  gap: 16px;
+}
 .mobile-menu-btn {
   background: transparent;
   border: none;
@@ -72,6 +79,33 @@
 .mobile-overlay.active {
   opacity: 1;
   pointer-events: all;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 8px;
+  right: 0;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.back-btn {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 6px;
+  /* border: 1px solid #244dd4; */
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+  /* transition: background 0.2s ease; */
+}
+
+.back-btn:hover {
+  background: #3a3a3a;
 }
 
 /* Sidebar */
@@ -129,6 +163,10 @@
   margin-bottom: 24px;
 }
 
+.rotate {
+  rotate: 180deg;
+}
+
 .nav-label {
   font-size: 12px;
   font-weight: 500;
@@ -173,6 +211,10 @@
   background: #0d0f11;
 }
 
+.main-content::-webkit-scrollbar {
+  display: none;
+}
+
 /* Mobile Styles */
 @media (max-width: 768px) {
   .mobile-header {
@@ -198,7 +240,7 @@
   }
 
   .main-content {
-    padding-top: 60px;
+    padding-top: 80px;
     width: 100%;
   }
 

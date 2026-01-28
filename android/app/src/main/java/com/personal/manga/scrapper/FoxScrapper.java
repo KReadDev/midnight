@@ -7,20 +7,31 @@ import com.personal.manga.domain.SiteManga;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.stereotype.Service;
+//import org.springframework.stereotype.Service;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
+//import javax.imageio.ImageIO;
+//import java.awt.image.BufferedImage;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
+import android.os.Environment;
+
+import androidx.annotation.RequiresApi;
+
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
-@Service
+//@Service
 public class FoxScrapper implements Scrapper {
 
     private final String link = "https://hentaifox.com/";
@@ -55,6 +66,7 @@ public class FoxScrapper implements Scrapper {
         return mangaList;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     public List<PageLink> getpageLinks(String sitelink){
         Document doc =   ScrapperFunctions.getDoc(sitelink);
 
@@ -93,6 +105,26 @@ public class FoxScrapper implements Scrapper {
         // name
         String h1Name = ScrapperFunctions.getElementAtIndex(info,"tag","h1",0).text();
         String name = h1Name.split("\\|")[0];
+        List<String> unwanted = new ArrayList<>();
+      unwanted.add("\"");
+      unwanted.add("/");
+      unwanted.add("<");
+      unwanted.add(">");
+      unwanted.add("*");
+      unwanted.add(":");
+      unwanted.add("?");
+      unwanted.add("|");
+      unwanted.add("\\");
+
+      for (String s : unwanted) {
+        name = name.replace(s,"");
+      }
+
+      while (name.endsWith(".")|| name.endsWith(" ")){
+        name = name.substring(0,name.length()-1);
+      }
+
+
 
         // tags
         Elements tags;
@@ -138,7 +170,12 @@ public class FoxScrapper implements Scrapper {
 
     }
 
-    private String getCover(Element doc){
+  @Override
+  public void getMangaImages(String sitelink, String id, SiteManga manga) {
+
+  }
+
+  private String getCover(Element doc){
         Element cover = ScrapperFunctions.getElementAtIndex(doc,"class","cover",0);
         String coverLink = ScrapperFunctions.getElementAtIndex(cover,"tag","img",0).attr("src");
 
@@ -190,149 +227,166 @@ public class FoxScrapper implements Scrapper {
         }
     }
 
-    public void getMangaImages(String sitelink,String id,SiteManga manga)  {
-
-        Document doc =   ScrapperFunctions.getDoc(sitelink);
-
-//        Element appendThumbs = ScrapperFunctions.getElementid(doc,"append_thumbs");
-//        Element gThumbs  = ScrapperFunctions.getElementAtIndex(appendThumbs,"class","g_thumb",0);
-
-//        String dataSrc = ScrapperFunctions.getElementAtIndex(gThumbs, "tag", "a", 0).attr("href");
-
-
-        String location;
-        DownloadData dl = new DownloadData();
-        dl.setName(manga.getName());
-        dl.setMangaId(id);
-        dl.setStatus("downloading");
-        dl.setSource("hentaifox");
-        dl.setProgress(0);
-
-        DownloadSingleton instance = DownloadSingleton.getInstance();
-
-        instance.downloads.add(dl);
-
-        try {
-            location = downloadManga(id, manga.getPages(), manga.getName(),dl);
-        } catch (IOException e) {
-            dl.setError("failed to download: "+e.getMessage() );
-            throw new RuntimeException(e);
-        }
-
-        Manga manga1 = new Manga();
-
-        manga1.setName(manga.getName());
-        manga1.setTags(manga.getTags());
-        manga1.setPages(manga.getPages());
-        manga1.setBookmarked(false);
-
-
-//        manga1.setLastRead();
-
-        // convert to pdf
-
-        converter.convertToPdf(location,manga.getName());
-
-
-
-        // move pdf to finished location
-
-        // download cover
-
-        String coverlink = getCover(doc);
-
-        URL url = null;
-        try {
-            url = new URL(coverlink);
-            new File("F:\\site\\covers").mkdir();
-            BufferedInputStream in = new BufferedInputStream(url.openStream());
-            FileOutputStream fileOutputStream = new FileOutputStream("F:\\site\\covers\\"+manga.getName()+".jpg");
-            byte dataBuff[] = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = in.read(dataBuff, 0, 1024)) != -1) {
-                fileOutputStream.write(dataBuff, 0, bytesRead);
-            }
-
-            fileOutputStream.close();
-            in.close();
-
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        dl.setProgress(100);
-
-        Serializer.writeManga(manga1);
-        dl.setStatus("completed");
-    }
-
-    private String downloadManga(String id, int count, String name, DownloadData dl) throws IOException {
-
-        String pathname = "F:\\site\\downloading\\" + name;
-        for (int i = 1; i <= count; i++) {
-
-            String newLink = "https://hentaifox.com/g/"+id+"/"+i;
-            Document doc = ScrapperFunctions.getDoc(newLink);
-
-            // find image link,
-
-            Element gimg = ScrapperFunctions.getElementid(doc, "gimg");
-            String imgLink = gimg.attr("data-src");
-            // download image
-
-            name=name.trim();
-            URL url = new URL(imgLink);
-//            ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
-
-            new File(pathname).mkdir();
-
-            BufferedInputStream in = new BufferedInputStream(url.openStream());
-            FileOutputStream fileOutputStream = new FileOutputStream("F:\\site\\downloading\\"+name+"\\"+name+""+i+".png");
-            byte dataBuff[] = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = in.read(dataBuff, 0, 1024)) != -1) {
-                fileOutputStream.write(dataBuff, 0, bytesRead);
-            }
-
-            fileOutputStream.close();
-            in.close();
-
-            File web = new File("F:\\site\\downloading\\"+name+"\\"+name+""+i+".png");
-            File jpg = new File("F:\\site\\downloading\\"+name+"\\"+name+"_"+i+".jpg");
-
-
-            BufferedImage image = ImageIO.read(web);
-            if (image != null) {
-                ImageIO.write(image, "jpg", jpg);
-            } else {
-                System.err.println("Failed to read WebP image.");
-            }
-
-            int res = (  (i*100) /count);
-            System.out.println("res = " + res);
-            dl.setProgress( res);
-
-
-
-//            FileOutputStream fileOutputStream = new FileOutputStream("F:\\site\\downloading\\"+name+"\\"+name+""+i+".png");
-//            FileChannel fileChannel = fileOutputStream.getChannel();
-//            fileChannel.transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
-//            fileChannel.close();
-//            readableByteChannel.close();
+//    public void getMangaImages(String sitelink,String id,SiteManga manga)  {
+//
+////      ExecutorService service = Executors.newSingleThreadExecutor();
+////
+////      service.submit(new Runnable() {
+////        @Override
+////        public void run() {
+//          runInThread(sitelink, id, manga);
+////        }
+////      });
+//////      runInThread(sitelink, id, manga);
+////      service.shutdown();
+//
+//    }
+//
+//  private void runInThread(String sitelink, String id, SiteManga manga) {
+//    Document doc =   ScrapperFunctions.getDoc(sitelink);
+//
+////        Element appendThumbs = ScrapperFunctions.getElementid(doc,"append_thumbs");
+////        Element gThumbs  = ScrapperFunctions.getElementAtIndex(appendThumbs,"class","g_thumb",0);
+//
+////        String dataSrc = ScrapperFunctions.getElementAtIndex(gThumbs, "tag", "a", 0).attr("href");
+//
+//
+//    String location;
+//    DownloadData dl = new DownloadData();
+//    dl.setName(manga.getName());
+//    dl.setMangaId(id);
+//    dl.setStatus("downloading");
+//    dl.setSource("hentaifox");
+//    dl.setProgress(0);
+//
+//    DownloadSingleton instance = DownloadSingleton.getInstance();
+//
+//    instance.downloads.add(dl);
+//
+//    try {
+//        location = downloadManga(id, manga.getPages(), manga.getName(),dl);
+//    } catch (IOException e) {
+//        dl.setError("failed to download: "+e.getMessage() );
+//        throw new RuntimeException(e);
+//    }
+//
+//    Manga manga1 = new Manga();
+//
+//    manga1.setName(manga.getName());
+//    manga1.setTags(manga.getTags());
+//    manga1.setPages(manga.getPages());
+//    manga1.setBookmarked(false);
+//
+//
+////        manga1.setLastRead();
+//
+//    // convert to pdf
+//
+//    converter.convertToPdf(location, manga.getName());
+//
+//
+//    // move pdf to finished location
+//
+//    // download cover
+//
+//    String coverlink = getCover(doc);
+//
+//    URL url = null;
+//    try {
+//        url = new URL(coverlink);
+//        new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/site/covers").mkdir();
+//        BufferedInputStream in = new BufferedInputStream(url.openStream());
+//        FileOutputStream fileOutputStream = new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/site/covers/"+ manga.getName()+".jpg");
+//        byte dataBuff[] = new byte[1024];
+//        int bytesRead;
+//        while ((bytesRead = in.read(dataBuff, 0, 1024)) != -1) {
+//            fileOutputStream.write(dataBuff, 0, bytesRead);
+//        }
+//
+//        fileOutputStream.close();
+//        in.close();
+//
+//    } catch (MalformedURLException e) {
+//        throw new RuntimeException(e);
+//    } catch (IOException e) {
+//        throw new RuntimeException(e);
+//    }
+//
+//    dl.setProgress(100);
+//
+//    Serializer.writeManga(manga1);
+//    dl.setStatus("completed");
+//  }
+//
+//  private String downloadManga(String id, int count, String name, DownloadData dl) throws IOException {
+//
+//        String pathname = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/site/downloading/" + name;
+//        for (int i = 1; i <= count; i++) {
+//
+//            String newLink = "https://hentaifox.com/g/"+id+"/"+i;
+//            Document doc = ScrapperFunctions.getDoc(newLink);
+//
+//            // find image link,
+//
+//            Element gimg = ScrapperFunctions.getElementid(doc, "gimg");
+//            String imgLink = gimg.attr("data-src");
+//            // download image
+//
+//            name=name.trim();
+//            URL url = new URL(imgLink);
+////            ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
+//
+//            new File(pathname).mkdir();
+//
+//            BufferedInputStream in = new BufferedInputStream(url.openStream());
+//            FileOutputStream fileOutputStream = new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/site/downloading/"+name+"/"+name+"_"+i+".png");
+//            byte dataBuff[] = new byte[1024];
+//            int bytesRead;
+//            while ((bytesRead = in.read(dataBuff, 0, 1024)) != -1) {
+//                fileOutputStream.write(dataBuff, 0, bytesRead);
+//            }
+//
 //            fileOutputStream.close();
-
-
-        }
-
-
-        return pathname;
-
-        // download image
-
-        // find next page link
-
-
-    }
+//            in.close();
+//
+////            File web = new File("F:\\site\\downloading\\"+name+"\\"+name+""+i+".png");
+//            String webs = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/site/downloading/"+name+"/"+name+"_"+i+".png";
+//            File jpg = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/site/downloading/"+name+"/"+name+"_"+i+".jpg");
+////
+////
+////            BufferedImage image = ImageIO.read(web);
+//            Bitmap bimage = BitmapFactory.decodeFile(webs);
+//            if (bimage != null) {
+////                ImageIO.write(image, "jpg", jpg);
+//              FileOutputStream outputStream = new FileOutputStream(jpg);
+//              bimage.compress(Bitmap.CompressFormat.JPEG,100, outputStream);
+//              outputStream.close();
+//            } else {
+//            }
+//
+//
+//            int res = (  (i*100) /count);
+//            dl.setProgress( res);
+//
+//
+//
+////            FileOutputStream fileOutputStream = new FileOutputStream("F:\\site\\downloading\\"+name+"\\"+name+""+i+".png");
+////            FileChannel fileChannel = fileOutputStream.getChannel();
+////            fileChannel.transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+////            fileChannel.close();
+////            readableByteChannel.close();
+////            fileOutputStream.close();
+//
+//
+//        }
+//
+//
+//        return pathname;
+//
+//        // download image
+//
+//        // find next page link
+//
+//
+//    }
 }

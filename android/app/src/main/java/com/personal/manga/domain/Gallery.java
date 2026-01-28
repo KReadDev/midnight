@@ -3,13 +3,13 @@ package com.personal.manga.domain;
 import java.util.List;
 
 public class Gallery implements Comparable {
-    private String id;
-    private String name;
-    private List<String> mangaIds;
-    private boolean isDefault;
-    private int count;
+    public String id;
+    public String name;
+    public List<String> mangaIds;
+    public boolean isDefault = false;
+    public int count;
 
-    public Gallery(String id, String name, List<String> mangaIds, boolean isDefault, int count) {
+    public Gallery(String id, String name, List<String> mangaIds, int count,boolean isDefault) {
         this.id = id;
         this.name = name;
         this.mangaIds = mangaIds;
@@ -44,4 +44,6 @@ public class Gallery implements Comparable {
         if (Integer.parseInt(id) > Integer.parseInt(gl.getId())) return 1;
         return 0;
     }
+
+
 }

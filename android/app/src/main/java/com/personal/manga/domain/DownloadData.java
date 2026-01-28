@@ -1,13 +1,13 @@
 package com.personal.manga.domain;
 
 public class DownloadData {
-    private String id;
-    private String mangaId;
-    private String name;
-    private int progress;
-    private String status;
-    private String source;
-    private String error;
+    public String id;
+    public String mangaId;
+    public String name;
+    public int progress;
+    public String status;
+    public String source;
+    public String error;
 
     // Getters and setters
     public String getId() { return id; }

@@ -2,8 +2,8 @@ package com.personal.manga.domain;
 
 public class PageLink {
 
-    private String pageNum;
-    private String pageLink;
+    public String pageNum;
+    public String pageLink;
 
     public PageLink(String pageNum, String pageLink) {
         this.pageNum = pageNum;

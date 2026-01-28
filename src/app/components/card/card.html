@@ -1,4 +1,4 @@
-<div class="manga-card" [routerLink]="['/manga', manga.id]">
+<div class="manga-card" >
     <div class="manga-image">
         <img [src]="manga.cover" [alt]="manga.name" />
         <button class="favorite-btn" [class.active]="manga.bookmarked">
@@ -12,7 +12,7 @@
         <h3>{{ manga.name }}</h3>
         <p>{{ manga.pages }} chapters</p>
         <div class="genres">
-            <span *ngFor="let genre of manga.tags" class="genre-tag">{{ genre }}</span>
+            <span *ngFor="let genre of manga.tags | slice:0:3" class="genre-tag">{{ genre }}</span>
         </div>
     </div>
 </div>

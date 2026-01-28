@@ -1,23 +1,31 @@
 package com.personal.manga.service;
 
 import com.personal.manga.domain.Manga;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+//import lombok.RequiredArgsConstructor;
+//import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
+//@Service
+//@RequiredArgsConstructor
 public class MangaService {
 
-    public List<Manga> getMangas(){
+    public static List<Manga> getMangas(){
 
         return MangaReader.readMangaJson();
     }
 
-    public void bookmarkManga(Manga manga){
+    public static void bookmarkManga(Manga manga){
         MangaReader.bookMarkManga(manga);
 
+    }
+
+    public static void deleteManga(Manga manga){
+      MangaReader.deleteManga(manga);
+    }
+
+    public static void reordermanga(){
+      MangaReader.reorder();
     }
 
 }

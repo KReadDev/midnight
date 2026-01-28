@@ -2,16 +2,17 @@ package com.personal.manga.domain;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 public class Manga {
-    private String id;
-    private String name;
-    private List<String> tags;
-    private String cover;
-    private int pages;
-    private boolean isBookmarked;
-    private Date lastRead;
+    public String id;
+    public String name;
+    public List<String> tags;
+    public String cover;
+    public int pages;
+    public boolean bookmarked;
+    public Date lastRead;
+
+    public String pdf;
 //    private coverBytes
 
     public Manga(){
@@ -34,13 +35,21 @@ public class Manga {
     public int getPages() { return pages; }
     public void setPages(int pages) { this.pages = pages; }
 
-    public boolean isBookmarked() { return isBookmarked; }
-    public void setBookmarked(boolean bookmarked) { isBookmarked = bookmarked; }
+    public boolean isBookmarked() { return bookmarked; }
+    public void setBookmarked(boolean bookmarked) { this.bookmarked = bookmarked; }
 
     public Date getLastRead() { return lastRead; }
     public void setLastRead(Date lastRead) { this.lastRead = lastRead; }
 
-    @Override
+  public String getPdf() {
+    return pdf;
+  }
+
+  public void setPdf(String pdf) {
+    this.pdf = pdf;
+  }
+
+  @Override
     public String toString() {
         return "Manga{" +
                 "id='" + id + '\'' +
@@ -48,7 +57,7 @@ public class Manga {
                 ", tags=" + tags +
                 ", cover='" + cover + '\'' +
                 ", pages=" + pages +
-                ", isBookmarked=" + isBookmarked +
+                ", isBookmarked=" + bookmarked +
                 ", lastRead=" + lastRead +
                 '}';
     }

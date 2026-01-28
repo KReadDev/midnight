@@ -52,3 +52,105 @@ a:focus-visible {
 * {
   transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
 }
+
+.genre-tag {
+  background: #3a3a3a;
+  color: #cccccc;
+  font-size: 12px;
+  padding-left: .625rem;
+  padding-right: .625rem;
+  padding-top: .125rem;
+  padding-bottom: .125rem;
+  border-radius: 9999px;
+}
+
+.category-btn {
+  background: #121417;
+  border: 1px solid #3a3a3a;
+  border-radius: 12px;
+  padding: 20px 24px;
+  color: #cccccc;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-decoration: none;
+  width: 100%;
+  text-align: left;
+}
+
+.category-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.category-name {
+  font-size: 18px;
+  font-weight: 500;
+  color: #ffffff;
+  text-transform: capitalize;
+}
+
+.count {
+  font-size: 14px;
+  color: #8a8f96;
+}
+
+.primary-btn {
+  background: #3c83f6;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.secondary-btn {
+  background: transparent;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  padding: 12px 24px;
+  color: #cccccc;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+
+
+.danger-btn {
+  background: transparent;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  padding: 12px 24px;
+  color: #b10505;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.gallery-container {
+  padding: 16px;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: center; */
+  gap: 1rem; 
+}

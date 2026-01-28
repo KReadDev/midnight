@@ -101,15 +101,21 @@
     gap: 8px;
     flex-wrap: wrap;
     margin-bottom: 24px;
+    max-height: 200px;
+    overflow-y: scroll;
 }
 
-.genre-tag {
+.genres::-webkit-scrollbar {
+    display: none;
+}
+
+/* .genre-tag {
     background: #3a3a3a;
     color: #cccccc;
     font-size: 14px;
     padding: 8px 12px;
     border-radius: 6px;
-}
+} */
 
 .description {
     font-size: 16px;
@@ -170,9 +176,34 @@
     justify-content: center;
 }
 
+.chapter-btn {
+    background: #121417;
+    border: 1px solid #3a3a3a;
+    border-radius: 12px;
+    padding: 20px 24px;
+    color: #cccccc;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    width: 100%;
+    text-align: left;
+  }
+
 .icon-btn:hover {
     background: #121417;
     color: #ffffff;
+}
+
+.chapters-section{
+    padding: 1rem;
+    box-sizing: border-box;
+    border-width: 0;
+    border-style: solid;
 }
 
 .chapters-section h2 {
@@ -282,11 +313,15 @@
         gap: 12px;
     }
 
+
     .primary-btn,
-    .secondary-btn {
+    .secondary-btn,
+    .danger-btn {
         width: 100%;
         justify-content: center;
     }
+
+
 
     .chapters-section h2 {
         font-size: 20px;
@@ -312,4 +347,90 @@
     .chapter-date {
         font-size: 12px;
     }
+}
+
+
+.gallery-modal {
+    /* display: flex;  */
+position: fixed; 
+top: 0;
+right: 0;
+bottom: 0;
+left: 0; 
+z-index: 50; 
+/* justify-content: center;  */
+/* align-items: center;  */
+background-color: rgba(0, 0, 0, 0.7); 
+/* opacity: 0.7;  */
+display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.gallery-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 51;
+    /* background-color: #000000; */
+    /* opacity: 0.5; */
+}
+
+.gallery-window {
+    
+/* background-color: #1F2937;  */
+/* z-index: 52; */
+opacity: 1;
+visibility: visible;
+
+background: #121417;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  /* opacity: 0; */
+  /* visibility: visible; */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  border: 1px solid #3a3a3a;
+  transform: translateY(20px);
+  transition: transform 0.2s ease;
+  overflow: hidden;
+  padding: 20px;
+  z-index: 52;
+}
+
+.gallery-header {
+    margin-bottom: 1rem; 
+font-size: 1.25rem;
+line-height: 1.75rem; 
+font-weight: 600; 
+color: #ffffff; 
+}
+
+.gallery-btn {
+   
+margin-top: 0.4rem;
+width: 100%; 
+
+}
+
+.cancel-btn {
+    
+width: 100%; 
+}
+
+.scroll-gallery {
+    overflow-y: auto;
+    /* scroll bar hidden */
+    scrollbar-width: none;
+    max-height: 300px;
+}
+
+.scroll-gallery::-webkit-scrollbar{
+    display: none;
 }

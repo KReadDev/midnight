@@ -1,29 +1,56 @@
 <div class="galleries-container">
   <header class="page-header">
     <h1>Manga Galleries</h1>
+    <!-- <button 
+      
+      class="category-btn"
+      
+      
+    >
+    <div class="category-content">
+      <span class="category-name">+  create new Gallery</span>
+      
+    </div>
+   </button> -->
+
   </header>
 
   <div class="categories">
     <button 
       *ngFor="let category of categories" 
       class="category-btn"
-      [class.active]="category.isDefault"
-      [routerLink]="['/gallery', category.slug]"
+      (click)="goToGallery(category)"
     >
       <div class="category-content">
-        <span class="category-name">{{ category.name }}</span>
-        <span class="count">{{ category.count }} manga{{ category.count !== 1 ? 's' : '' }}</span>
+        <span class="category-name">{{ category?.name }}</span>
+        <span class="count" *ngIf="!category.isDefault">{{ category.mangaIds.length }} manga{{ category.mangaIds.length !== 1 ? 's' : '' }}</span>
       </div>
       <span class="category-label" *ngIf="category.isDefault">Default</span>
     </button>
+
+    <button 
+      
+      class="category-btn"
+      (click)="togglePopup()"
+      
+    >
+      <div class="category-content">
+        <span class="category-name">create new Gallery</span>
+      </div>
+    </button>
   </div>
 
-  <div class="recent-section">
+  <!-- <div class="recent-section">
     <button class="category-btn recent-btn" [routerLink]="['/gallery', 'recent']">
       <div class="category-content">
         <span class="category-name">last week read</span>
         <span class="count">{{ recentCount }} manga</span>
       </div>
     </button>
-  </div>
+  </div> -->
+
+  
+
+
 </div>
+<app-gallery-creator ></app-gallery-creator>

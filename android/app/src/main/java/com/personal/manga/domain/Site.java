@@ -4,11 +4,17 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class Site {
-    private String id;
-    private String name;
-    private String icon;
+    public String id;
+    public String name;
+    public String icon;
 
-//    public Site(String number, String fox, String icon) {
+  public Site(String id, String name, String icon) {
+    this.id = id;
+    this.name = name;
+    this.icon = icon;
+  }
+
+  //    public Site(String number, String fox, String icon) {
 //    }
 
     // Getters and setters
